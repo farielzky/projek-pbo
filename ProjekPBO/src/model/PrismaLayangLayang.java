@@ -7,6 +7,7 @@ import java.util.List;
 // SPECIALIZATION dari LayangLayang
 public class PrismaLayangLayang extends LayangLayang {
     private double tinggi; // Atribut tambahan hasil spesialisasi
+    private double volume;
 
     public PrismaLayangLayang(JendelaUtama jendela, int jumlahData, Color warna, int idThread, List<Thread> daftarThread, boolean bisaInterupsi) {
         // Melempar parameter ke konstruktor General (Induk)
@@ -17,11 +18,12 @@ public class PrismaLayangLayang extends LayangLayang {
     public void setDimensi(double d1, double d2, double tinggi) {
         super.setDimensi(d1, d2); // Gunakan sifat General untuk d1 dan d2
         this.tinggi = tinggi;
+        this.volume = luas * tinggi; // dapat variable luas dari parent class
     }
 
     @Override 
     public double hitungVolume() { 
-        return super.hitungLuas() * tinggi; // Luas alas * tinggi
+        return volume; // Luas alas * tinggi
     }
 
     // Override Sifat General: Saat di dalam thread, cetak Volume bukan Luas

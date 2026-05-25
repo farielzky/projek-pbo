@@ -17,7 +17,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class JendelaUtama extends JFrame {
 
-    // ─── Palette ───────────────────────────────────────────────────────────────
     private static final Color BG          = new Color(245, 244, 240);   // warm off-white
     private static final Color SURFACE     = new Color(255, 255, 255);   // card white
     private static final Color BORDER_CLR  = new Color(220, 218, 212);   // soft border
@@ -31,14 +30,12 @@ public class JendelaUtama extends JFrame {
     private static final Color COL_SYS     = new Color(200, 100,  90);   // muted red
     private static final Color COL_INTR    = new Color(220, 165,  60);   // amber
 
-    // ─── Fonts ─────────────────────────────────────────────────────────────────
     private static final Font FONT_HEAD  = new Font("SansSerif", Font.BOLD, 20);
     private static final Font FONT_SUB   = new Font("SansSerif", Font.PLAIN, 12);
     private static final Font FONT_LABEL = new Font("SansSerif", Font.BOLD, 11);
     private static final Font FONT_MONO  = new Font("Monospaced", Font.PLAIN, 12);
     private static final Font FONT_SMALL = new Font("Monospaced", Font.PLAIN, 11);
 
-    // ─── Widgets ───────────────────────────────────────────────────────────────
     private PillCheckBox cbLayang, cbPrisma, cbLimas, cbInterrupt;
     private JTextField txtData, txtThread;
     private JButton btnJalankan;
@@ -52,7 +49,6 @@ public class JendelaUtama extends JFrame {
     private Timer runtimeTimer;
     private int totalTasks;
 
-    // ─── Per-thread state for monitor ──────────────────────────────────────────
     private final java.util.Map<String, ThreadCard> threadCards =
             Collections.synchronizedMap(new java.util.LinkedHashMap<>());
 
@@ -68,9 +64,6 @@ public class JendelaUtama extends JFrame {
         initUI();
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
-    //  UI Init
-    // ──────────────────────────────────────────────────────────────────────────
     private void initUI() {
         add(buildHeader(), BorderLayout.NORTH);
 
@@ -85,27 +78,12 @@ public class JendelaUtama extends JFrame {
         add(buildFooter(), BorderLayout.SOUTH);
     }
 
-    // ─── Header ────────────────────────────────────────────────────────────────
     private JPanel buildHeader() {
         JPanel p = new JPanel(new BorderLayout(0, 0));
         p.setBackground(SURFACE);
         p.setBorder(new CompoundBorder(
                 BorderFactory.createMatteBorder(0, 0, 1, 0, BORDER_CLR),
                 new EmptyBorder(18, 24, 18, 24)));
-
-//        // Title
-//        JPanel titleCol = new JPanel();
-//        titleCol.setLayout(new BoxLayout(titleCol, BoxLayout.Y_AXIS));
-//        titleCol.setBackground(SURFACE);
-//        JLabel title = new JLabel("Geometry Compute Engine");
-//        title.setFont(FONT_HEAD);
-//        title.setForeground(TEXT_PRI);
-//        JLabel sub = new JLabel("OOP Multithreading · Layang-layang Shapes");
-//        sub.setFont(FONT_SUB);
-//        sub.setForeground(TEXT_SEC);
-//        titleCol.add(title);
-//        titleCol.add(Box.createVerticalStrut(3));
-//        titleCol.add(sub);
 
         // Controls row
         JPanel ctrl = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
@@ -116,8 +94,8 @@ public class JendelaUtama extends JFrame {
         cbLimas  = new PillCheckBox("3D  Limas",  COL_LIMAS);
         cbLayang.setSelected(true);
 
-        txtData   = buildField("50");
-        txtThread = buildField("2");
+        txtData   = buildField("100");
+        txtThread = buildField("5");
 
         ctrl.add(makeLabel("Bangun:"));
         ctrl.add(cbLayang);
@@ -139,12 +117,10 @@ public class JendelaUtama extends JFrame {
         btnJalankan = buildRunButton();
         ctrl.add(btnJalankan);
 
-//        p.add(titleCol, BorderLayout.WEST);
         p.add(ctrl, BorderLayout.EAST);
         return p;
     }
 
-    // ─── Log Panel (left) ──────────────────────────────────────────────────────
     private JPanel buildLogPanel() {
         JPanel p = new JPanel(new BorderLayout());
         p.setBackground(BG);
@@ -167,7 +143,6 @@ public class JendelaUtama extends JFrame {
         return p;
     }
 
-    // ─── Right Panel ──────────────────────────────────────────────────────────
     private JPanel buildRightPanel() {
         JPanel p = new JPanel(new BorderLayout(0, 12));
         p.setBackground(BG);
@@ -219,7 +194,6 @@ public class JendelaUtama extends JFrame {
         return wrapper;
     }
 
-    // ─── Footer ───────────────────────────────────────────────────────────────
     private JPanel buildFooter() {
         JPanel p = new JPanel(new BorderLayout());
         p.setBackground(SURFACE);
@@ -233,9 +207,6 @@ public class JendelaUtama extends JFrame {
         return p;
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
-    //  Run Logic
-    // ──────────────────────────────────────────────────────────────────────────
     private void mulaiProses() {
         try {
             int jumlahData   = Integer.parseInt(txtData.getText().trim());
@@ -340,9 +311,6 @@ public class JendelaUtama extends JFrame {
         lblThreadCount.setText("Threads: " + alive + " / " + daftarThread.size());
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
-    //  Public API called by model threads
-    // ──────────────────────────────────────────────────────────────────────────
     public synchronized void tambahLog(String teks, Color warna) {
         SwingUtilities.invokeLater(() -> {
             StyleContext sc = StyleContext.getDefaultStyleContext();
@@ -368,9 +336,6 @@ public class JendelaUtama extends JFrame {
         });
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
-    //  Helper builders & Inner Classes (Tetap sama seperti aslinya)
-    // ──────────────────────────────────────────────────────────────────────────
     private JPanel card() {
         JPanel p = new JPanel();
         p.setBackground(SURFACE);

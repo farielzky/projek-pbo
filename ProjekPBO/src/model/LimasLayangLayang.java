@@ -7,6 +7,7 @@ import java.util.List;
 // SPECIALIZATION dari LayangLayang
 public class LimasLayangLayang extends LayangLayang {
     private double tinggi; // Atribut tambahan hasil spesialisasi
+    private double volume;
 
     public LimasLayangLayang(JendelaUtama jendela, int jumlahData, Color warna, int idThread, List<Thread> daftarThread, boolean bisaInterupsi) {
         // Melempar parameter ke konstruktor General (Induk)
@@ -16,11 +17,12 @@ public class LimasLayangLayang extends LayangLayang {
     public void setDimensi(double d1, double d2, double tinggi) {
         super.setDimensi(d1, d2); // Gunakan sifat General
         this.tinggi = tinggi;
+        this.volume = (1.0 / 3.0) * luas * tinggi;
     }
 
     @Override 
     public double hitungVolume() { 
-        return (1.0 / 3.0) * super.hitungLuas() * tinggi; // 1/3 * Luas alas * tinggi
+        return volume; // 1/3 * Luas alas * tinggi
     }
 
     // Override Sifat General: Saat di dalam thread, cetak Volume
