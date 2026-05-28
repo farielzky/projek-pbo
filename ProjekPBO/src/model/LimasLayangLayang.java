@@ -29,6 +29,11 @@ public class LimasLayangLayang extends LayangLayang {
     @Override
     protected void setDimensiAcakDanCetakLog(int i) {
         setDimensi((Math.random() * 50) + 1, (Math.random() * 50) + 1, (Math.random() * 30) + 1);
-        jendela.tambahLog(String.format("[%s-%d] Data %d | Vol: %.2f", nama, idThread, i, hitungVolume()), warna);
+    
+        // Format baris untuk data 3D Limas
+        String row = String.format("| %-12s | %-9d | %-6.2f | %-6.2f | %-8.2f | %-8s | %-8.2f |", 
+            nama + "-" + idThread, i, d1, d2, luas, "-", hitungVolume());
+
+        jendela.tambahLog(row, warna);
     }
 }

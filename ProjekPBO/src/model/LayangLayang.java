@@ -40,9 +40,12 @@ public class LayangLayang extends BangunGeometri {
     // Method ini dipisahkan agar BISA DI-OVERRIDE oleh kelas spesialisasi
     protected void setDimensiAcakDanCetakLog(int i) {
         setDimensi((Math.random() * 50) + 1, (Math.random() * 50) + 1);
-        jendela.tambahLog(String.format(
-            "[%s-%d] Data %d | Luas: %.2f | Keliling: %.2f",
-            nama, idThread, i, luas, keliling), warna);
+
+        // Format baris untuk data 2D
+        String row = String.format("| %-12s | %-9d | %-6.2f | %-6.2f | %-8.2f | %-8.2f | %-8s |", 
+            nama + "-" + idThread, i, d1, d2, luas, keliling, "-");
+
+        jendela.tambahLog(row, warna);
     }
 
     @Override
