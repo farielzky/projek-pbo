@@ -6,38 +6,42 @@ import java.util.List;
 
 // SPECIALIZATION dari LayangLayang
 public class PrismaLayangLayang extends LayangLayang {
-    private double tinggi; // Atribut tambahan hasil spesialisasi
+    private double tinggi; 
     private double volume;
+    private double luasPermukaan; // Atribut baru
 
     public PrismaLayangLayang(JendelaUtama jendela, int jumlahData, Color warna, int idThread, List<Thread> daftarThread, boolean bisaInterupsi) {
-        // Melempar parameter ke konstruktor General (Induk)
         super("PRISMA", jendela, jumlahData, warna, idThread, daftarThread, bisaInterupsi);
     }
 
     // Overloading method setDimensi dengan 3 parameter
     public void setDimensi(double d1, double d2, double tinggi) {
-        super.setDimensi(d1, d2); // Gunakan sifat General untuk d1 dan d2
+        super.setDimensi(d1, d2); 
         this.tinggi = tinggi;
-        this.volume = luas * tinggi; // dapat variable luas dari parent class
+        this.volume = luas * tinggi; 
+        
+        // Rumus Luas Permukaan Prisma
+        this.luasPermukaan = (2 * luas) + (keliling * tinggi);
     }
 
     @Override 
     public double hitungVolume() { 
-        return volume; // Luas alas * tinggi
+        return volume; 
     }
 
-    // Override Sifat General: Saat di dalam thread, cetak Volume bukan Luas
+    // Getter baru untuk Luas Permukaan
+    public double hitungLuasPermukaan() {
+        return luasPermukaan;
+    }
+
     @Override
     protected void setDimensiAcakDanCetakLog(int i) {
         setDimensi((Math.random() * 50) + 1, (Math.random() * 50) + 1, (Math.random() * 30) + 1);
-    
-        // Format baris untuk data 3D Prisma
-        String row = String.format("| %-12s | %-9d | %-6.2f | %-6.2f | %-8.2f | %-8s | %-8.2f |", 
-            nama + "-" + idThread, i, d1, d2, luas, "-", hitungVolume());
+
+        // Format 8 Kolom untuk 3D (Pastikan ada variabel luasPermukaan dan volume)
+        String row = String.format("| %-12s | %-9d | %-6.2f | %-6.2f | %-8.2f | %-8s | %-8.2f | %-8.2f |", 
+            nama + "-" + idThread, i, d1, d2, luas, "-", luasPermukaan, volume);
 
         jendela.tambahLog(row, warna);
     }
-    
-    // TIDAK PERLU MENULIS ULANG METHOD run() !
-    // Sifat multithreading otomatis diwariskan dari induk (LayangLayang).
 }

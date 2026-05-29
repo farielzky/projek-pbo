@@ -12,8 +12,6 @@ public abstract class BangunGeometri implements Kalkulasi, Runnable {
     protected int idThread;
     protected List<Thread> daftarThread;
 
-    public BangunGeometri() {}
-
     public BangunGeometri(String nama, JendelaUtama jendela, int jumlahData, Color warna, int idThread, List<Thread> daftarThread) {
         this.nama = nama;
         this.jendela = jendela;

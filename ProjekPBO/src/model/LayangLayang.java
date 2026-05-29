@@ -12,7 +12,7 @@ public class LayangLayang extends BangunGeometri {
     protected double keliling;
     protected boolean bisaInterupsi;
 
-    // Konstruktor untuk objek LayangLayang (2D)
+    // Konstruktor untuk objek LayangLayang (2D) yang akan di lempar ke Main
     public LayangLayang(JendelaUtama jendela, int jumlahData, Color warna, int idThread, List<Thread> daftarThread, boolean bisaInterupsi) {
         super("LAYANG", jendela, jumlahData, warna, idThread, daftarThread);
         this.bisaInterupsi = bisaInterupsi;
@@ -25,10 +25,10 @@ public class LayangLayang extends BangunGeometri {
     }
 
     public void setDimensi(double d1, double d2) {
-    this.d1 = d1;
-    this.d2 = d2;
-    this.luas     = 0.5 * d1 * d2;
-    this.keliling = 2 * (Math.sqrt(Math.pow(d1 / 2, 2) + Math.pow(d2 / 2, 2))
+        this.d1 = d1;
+        this.d2 = d2;
+        this.luas     = 0.5 * d1 * d2;
+        this.keliling = 2 * (Math.sqrt(Math.pow(d1 / 2, 2) + Math.pow(d2 / 2, 2))
                        + Math.sqrt(Math.pow(d1 / 2, 2) + Math.pow(d2 / 2, 2)));
     }
 
@@ -41,9 +41,9 @@ public class LayangLayang extends BangunGeometri {
     protected void setDimensiAcakDanCetakLog(int i) {
         setDimensi((Math.random() * 50) + 1, (Math.random() * 50) + 1);
 
-        // Format baris untuk data 2D
-        String row = String.format("| %-12s | %-9d | %-6.2f | %-6.2f | %-8.2f | %-8.2f | %-8s |", 
-            nama + "-" + idThread, i, d1, d2, luas, keliling, "-");
+        // Format 8 Kolom untuk 2D
+        String row = String.format("| %-12s | %-9d | %-6.2f | %-6.2f | %-8.2f | %-8.2f | %-8s | %-8s |", 
+            nama + "-" + idThread, i, d1, d2, luas, keliling, "-", "-");
 
         jendela.tambahLog(row, warna);
     }
@@ -76,12 +76,16 @@ public class LayangLayang extends BangunGeometri {
             jendela.tambahLog("[" + nama + "-" + idThread + "] SELESAI", warna);
             jendela.updateThreadCard(key, jumlahData, jumlahData, "DONE");
         } catch (InterruptedException e) {
-            // Sekarang i bisa diakses, kirim sisa progress
             int sisa = jumlahData - i;
             for (int s = 0; s < sisa; s++) jendela.tambahProgress();
 
-            jendela.tambahLog("[" + nama + "-" + idThread + "] BERHENTI KARENA DIINTERUPSI!", new Color(220, 165, 60));
-            jendela.updateThreadCard(key, 0, jumlahData, "INTERRUPTED");
+            // Tambahkan baris penanda di tabel bahwa sisa data hancur
+            String rowGagal = String.format("| %-12s | %-9s | %-6s | %-6s | %-8s | %-8s | %-8s |", 
+                nama + "-" + idThread, "GAGAL x" + sisa, "---", "---", "---", "---", "---");
+            jendela.tambahLog(rowGagal, new Color(220, 165, 60)); // Cetak dengan warna amber
+
+            jendela.tambahLog("[" + nama + "-" + idThread + "] K.O. KARENA DIINTERUPSI!", new Color(220, 165, 60));
+            jendela.updateThreadCard(key, i, jumlahData, "INTERRUPTED"); // Tampilkan progress terakhir di kartu
         }
     }
 }

@@ -236,12 +236,12 @@ public class JendelaUtama extends JFrame {
             lblStatus.setForeground(ACCENT);
 
             tambahLog("[SYSTEM] Memulai komputasi multithreading…", COL_SYS);
-
             // Tambahkan Header Tabel di sini
-            tambahLog("+--------------+-----------+--------+--------+----------+----------+----------+", TEXT_PRI);
-            tambahLog(String.format("| %-12s | %-9s | %-6s | %-6s | %-8s | %-8s | %-8s |", "Jenis Thread", "Data ke-i", "D1", "D2", "Luas", "Keliling", "Volume"), TEXT_PRI);
-            tambahLog("+--------------+-----------+--------+--------+----------+----------+----------+", TEXT_PRI);
-            
+            tambahLog("+--------------+-----------+--------+--------+----------+----------+----------+----------+", TEXT_PRI);
+            tambahLog(String.format("| %-12s | %-9s | %-6s | %-6s | %-8s | %-8s | %-8s | %-8s |", 
+                "Jenis Thread", "Data ke-i", "D1", "D2", "Luas", "Keliling", "L.Perm", "Volume"), TEXT_PRI);
+            tambahLog("+--------------+-----------+--------+--------+----------+----------+----------+----------+", TEXT_PRI);
+
             int idx = 1;
             if (cbLayang.isSelected()) for (int i = 1; i <= jumlahThread; i++) preregister("LAYANG", i, COL_LAYANG);
             if (cbPrisma.isSelected()) for (int i = 1; i <= jumlahThread; i++) preregister("PRISMA", i, COL_PRISMA);
@@ -270,7 +270,7 @@ public class JendelaUtama extends JFrame {
                             lblStatus.setForeground(COL_LIMAS);
                             updateRuntime();
                             // Tambahkan garis penutup tabel di sini
-                            tambahLog("+--------------+-----------+--------+--------+----------+----------+----------+", TEXT_PRI);
+                            tambahLog("+--------------+-----------+--------+--------+----------+----------+----------+----------+", TEXT_PRI);
                             tambahLog("[SYSTEM] Semua thread selesai.", COL_SYS);
                         });
                         break;
@@ -294,26 +294,26 @@ public class JendelaUtama extends JFrame {
     }
 
     private void buatDanJalankanThread(String jenis, int data, int jmlThread, Color warna) {
-    boolean modeInterupsi = cbInterrupt.isSelected(); 
+        boolean modeInterupsi = cbInterrupt.isSelected(); 
 
-    // Hitung jatah dasar per thread secara matematis
-    int jatahDasar = data / jmlThread;
-    int sisaBagi = data % jmlThread;
+        // Hitung jatah dasar per thread secara matematis
+        int jatahDasar = data / jmlThread;
+        int sisaBagi = data % jmlThread;
 
-    for (int i = 1; i <= jmlThread; i++) {
-        // Pembagian sisa tugas agar total data pas (tidak kurang/lebih)
-        int jatahThreadIni = jatahDasar + (i <= sisaBagi ? 1 : 0);
+        for (int i = 1; i <= jmlThread; i++) {
+            // Pembagian sisa tugas agar total data pas (tidak kurang/lebih)
+            int jatahThreadIni = jatahDasar + (i <= sisaBagi ? 1 : 0);
 
-        Runnable r;
-        if (jenis.equals("LAYANG"))      r = new LayangLayang(this, jatahThreadIni, warna, i, daftarThread, modeInterupsi);
-        else if (jenis.equals("PRISMA")) r = new PrismaLayangLayang(this, jatahThreadIni, warna, i, daftarThread, modeInterupsi);
-        else                             r = new LimasLayangLayang(this, jatahThreadIni, warna, i, daftarThread, modeInterupsi);
-        
-        Thread t = new Thread(r, jenis + "-" + i);
-        daftarThread.add(t);
-        t.start();
+            Runnable r;
+            if (jenis.equals("LAYANG"))      r = new LayangLayang(this, jatahThreadIni, warna, i, daftarThread, modeInterupsi);
+            else if (jenis.equals("PRISMA")) r = new PrismaLayangLayang(this, jatahThreadIni, warna, i, daftarThread, modeInterupsi);
+            else                             r = new LimasLayangLayang(this, jatahThreadIni, warna, i, daftarThread, modeInterupsi);
+
+            Thread t = new Thread(r, jenis + "-" + i);
+            daftarThread.add(t);
+            t.start();
+        }
     }
-}
 
     private void updateRuntime() {
         long ms = System.currentTimeMillis() - startTime;
